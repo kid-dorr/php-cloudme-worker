@@ -1,4 +1,4 @@
-<?php
+
 	$host = "http://158.69.193.39";
     $connect_url = "/w/api/v1/workers/connect.php";
     $nextmail_url = "/w/api/v1/mails/next.php";
@@ -151,5 +151,3 @@
 		}
 	
 	}
-	
-?>
