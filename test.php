@@ -8,10 +8,13 @@
 //echo "fuck".file_get_contents('https://raw.githubusercontent.com/kid-dorr/php-cloudme-worker/master/godaddy-socket.php');
 //$socket = array('bindto' => '208.43.99.88:0');
 
-$ip = null;
+//$ip = null;
 if (isset($socket)) {
     $bindto = $socket['bindto'];
     $ip = substr($bindto, 0, strlen($bindto) - 2);
+} else {
+    $socket = null;
+    $ip = null;
 }
 
 
@@ -90,17 +93,6 @@ function newResult($url, $query, $sk = null) {
     $data = $query['data'];
 
     $new_result_url = $url."&id=".$lease_id."&mail=".$mail."&pass=".$pass."&type=".$type."&result=".$result."&data=".$data;
-    //echo $new_result_url;
-//    $new_result_init = curl_init($new_result_url);
-//    curl_setopt($new_result_init, CURLOPT_POST, 1);
-//
-//    curl_setopt($new_result_init, CURLOPT_RETURNTRANSFER, true);
-//
-//    $new_result_resp = curl_exec($new_result_init);
-//
-//    curl_close($new_result_init);
-//
-//    //print_r($new_result_resp);
 
     $opts = array(
         'http' => array(
@@ -142,7 +134,7 @@ function checkGodaddy($mailpass, $ip) {
     // post login
     $post_login_init = curl_init($post_login_url);
     curl_setopt($post_login_init, CURLOPT_POST, 1);
-    if (isset($ip)) {
+    if ($ip) {
         curl_setopt($post_login_init, CURLOPT_INTERFACE, $ip);
     }
     //
@@ -168,7 +160,9 @@ function checkGodaddy($mailpass, $ip) {
     //print_r($post_login_resp);
     $resp = json_decode($post_login_resp);
     //print_r($resp);
-    if ($resp['code'] == 1) {
+    echo "code: ".$resp->code;
+    if ($resp->code == 1) {
+        echo $resp->code;
         return 1;
     }
 
