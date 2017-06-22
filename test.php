@@ -139,11 +139,10 @@ function checkGodaddy($mailpass, $ip) {
         )
     );
     echo $login_json;
-    $ip = "";
     // post login
     $post_login_init = curl_init($post_login_url);
     curl_setopt($post_login_init, CURLOPT_POST, 1);
-    if ($ip) {
+    if (isset($ip)) {
         curl_setopt($post_login_init, CURLOPT_INTERFACE, $ip);
     }
     //
