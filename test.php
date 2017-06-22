@@ -72,6 +72,7 @@ function nextMail($url, $sk = null) {
 
     $context = stream_context_create($opts);
     $resp = file_get_contents($url, false, $context);
+    echo $resp;
     $json_resp = json_decode($resp, true);
     return $json_resp;
 }
@@ -199,6 +200,8 @@ if ($is_connected) {
         echo "update success";
     }
 
+} else {
+    echo "connect error";
 }
 
 
